@@ -1,0 +1,22 @@
+name: pickone-dev
+
+services:
+  postgres:
+    image: postgres:15.15
+    container_name: pickone-dev-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5463:5432"
+    volumes:
+      - pickone-dev-data:/var/lib/postgresql/data
+      - ./RDB/init:/docker-entrypoint-initdb.d
+    networks:
+      - pickone-dev-network
+
+volumes:
+  pickone-dev-data:
+
+networks:
+  pickone-dev-network:

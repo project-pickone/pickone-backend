@@ -4,6 +4,8 @@ CREATE DATABASE pickone OWNER db_admin;
 
 \c pickone db_admin
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE accounts
 (
   id      uuid    NOT NULL,
@@ -14,15 +16,13 @@ CREATE TABLE accounts
 
 CREATE TABLE board_options
 (
-  idx       int      NOT NULL GENERATED ALWAYS AS IDENTITY,
-  board_idx int      NOT NULL,
-  order     smallint NOT NULL DEFAULT 1,
-  contents  varchar  NOT NULL,
-  count     int      NOT NULL DEFAULT 0,
+  idx         int      NOT NULL GENERATED ALWAYS AS IDENTITY,
+  board_idx   int      NOT NULL,
+  sort_order  smallint NOT NULL DEFAULT 1,
+  contents    varchar  NOT NULL,
+  count       int      NOT NULL DEFAULT 0,
   PRIMARY KEY (idx)
 );
-
-COMMENT ON COLUMN board_options.order IS '1 -> 2 -> 3';
 
 CREATE TABLE board_snapshots
 (
