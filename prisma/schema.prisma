@@ -11,11 +11,12 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  nickname  String
-  birth     DateTime  @db.Date
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  nickname   String
+  birth      DateTime  @db.Date
+  profileImg String?   @map("profile_img")
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamptz
 
   account  Account?
   boards   Board[]

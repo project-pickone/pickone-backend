@@ -65,11 +65,12 @@ CREATE TABLE comments
 
 CREATE TABLE users
 (
-  id         uuid                     NOT NULL DEFAULT uuid_generate_v4(),
-  nickname   varchar                  NOT NULL,
-  birth      date                     NOT NULL,
-  created_at timestamp with time zone NOT NULL DEFAULT NOW(),
-  deleted_at timestamp with time zone,
+  id           uuid                     NOT NULL DEFAULT uuid_generate_v4(),
+  nickname     varchar                  NOT NULL,
+  birth        date                     NOT NULL,
+  profile_img  varchar                  NULL,
+  created_at   timestamp with time zone NOT NULL DEFAULT NOW(),
+  deleted_at   timestamp with time zone,
   PRIMARY KEY (id)
 );
 
