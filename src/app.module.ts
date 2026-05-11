@@ -5,6 +5,8 @@ import { ClsModule } from 'nestjs-cls';
 import { PrismaModule } from './common/modules/prisma/prisma.module';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { PrismaService } from './common/modules/prisma/prisma.service';
+import { UserModule } from './api/user/user.module';
+import { AuthModule } from './api/auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { PrismaService } from './common/modules/prisma/prisma.service';
         }),
       ],
     }),
+    UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
