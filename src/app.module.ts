@@ -8,6 +8,7 @@ import { PrismaService } from './common/modules/prisma/prisma.service';
 import { UserModule } from './api/user/user.module';
 import { AuthModule } from './api/auth/auth.module';
 import { LoginTokenModule } from './common/modules/login-token/login-token.module';
+import { BoardModule } from './api/board/board.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { LoginTokenModule } from './common/modules/login-token/login-token.modul
     LoginTokenModule,
     UserModule,
     AuthModule,
+    BoardModule,
   ],
   controllers: [],
   providers: [],
