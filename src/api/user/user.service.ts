@@ -1,10 +1,15 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { SignupDto } from './dto/request/signup.dto';
 import { AccountRepository } from './account.repository';
 import { Transactional } from '@nestjs-cls/transactional';
 import { HashService } from '../../common/modules/hash/hash.service';
 import { UserEntity } from './entity/user.entity';
+import { LoginUser } from '../../common/decorators/user.decorator';
 
 @Injectable()
 export class UserService {
@@ -31,6 +36,17 @@ export class UserService {
       dto.userId,
       hashedPassword,
     );
+    return UserEntity.fromPrisma(user);
+  }
+
+  public async getMyInfo(loginUser: LoginUser): Promise<UserEntity> {
+    const user = await this.userRepository.selectUserById(loginUser.id);
+
+    if (!user) {
+      console.error(`User with ID ${loginUser.id} not found.`);
+      throw new UnauthorizedException('invalid token');
+    }
+
     return UserEntity.fromPrisma(user);
   }
 }

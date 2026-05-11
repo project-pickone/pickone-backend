@@ -6,7 +6,7 @@ import { HashModule } from '../../common/modules/hash/hash.module';
 import { LoginTokenModule } from '../../common/modules/login-token/login-token.module';
 
 @Module({
-  imports: [HashModule, LoginTokenModule],
+  imports: [HashModule],
   controllers: [AuthController],
   providers: [AuthService, AccountRepository],
   exports: [],

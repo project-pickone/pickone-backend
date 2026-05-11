@@ -4,7 +4,7 @@ export class LoginDto {
   /**
    * 사용자 아이디
    *
-   * @example "john_doe"
+   * @example "user1234"
    */
   @IsString()
   userId: string;

@@ -27,7 +27,7 @@ export class UserRepository {
       data: {
         nickname: dto.nickname,
         profileImg: dto.profileImg,
-        birth: dto.birth,
+        birth: dto.birth + 'T00:00:00.000Z',
       },
     });
   }

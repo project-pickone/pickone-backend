@@ -7,6 +7,7 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 import { PrismaService } from './common/modules/prisma/prisma.service';
 import { UserModule } from './api/user/user.module';
 import { AuthModule } from './api/auth/auth.module';
+import { LoginTokenModule } from './common/modules/login-token/login-token.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './api/auth/auth.module';
         }),
       ],
     }),
+    LoginTokenModule,
     UserModule,
     AuthModule,
   ],

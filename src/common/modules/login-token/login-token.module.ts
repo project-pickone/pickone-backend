@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { LoginTokenService } from './login-token.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import loginTokenConfig from './config/login-token.config';
 import { JwtModule } from '@nestjs/jwt';
 
+@Global()
 @Module({
   imports: [
     JwtModule.registerAsync({
