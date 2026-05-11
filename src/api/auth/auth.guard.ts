@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { LoginTokenService } from '../../common/modules/login-token/login-token.service';
 import { Request } from 'express';
 
@@ -21,7 +26,7 @@ export class AuthGuard implements CanActivate {
 
       return true;
     } catch (error) {
-      return false;
+      throw new UnauthorizedException('invalid token');
     }
   }
 }
