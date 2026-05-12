@@ -1,4 +1,5 @@
 import { BoardAuthorEntity } from './board-author.entity';
+import { BoardCategoryEntity } from './board-category.entity';
 import { BoardOptionEntity } from './board-option.entity';
 import { SelectBoard } from './prisma/select-board';
 
@@ -28,6 +29,8 @@ export class BoardEntity {
 
   options: BoardOptionEntity[];
 
+  categoryList: BoardCategoryEntity[];
+
   createdAt: Date;
 
   constructor(data: BoardEntity) {
@@ -44,6 +47,9 @@ export class BoardEntity {
         BoardOptionEntity.fromPrisma(option),
       ),
       createdAt: board.createdAt,
+      categoryList: board.categories.map(({ category }) =>
+        BoardCategoryEntity.fromPrisma(category),
+      ),
     });
   }
 }

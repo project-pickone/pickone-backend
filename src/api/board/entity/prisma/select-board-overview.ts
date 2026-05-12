@@ -3,7 +3,7 @@ import { SELECT_BOARD_AUTHOR } from './select-board-author';
 import { SELECT_BOARD_OPTIONS } from './select-board-options';
 import { SELECt_CATEGORY } from './select-category';
 
-export const SELECT_BOARD = {
+export const SELECT_BOARD_OVERVIEW = {
   select: {
     idx: true,
     author: {
@@ -12,7 +12,6 @@ export const SELECT_BOARD = {
     snapshots: {
       select: {
         title: true,
-        contents: true,
       },
       take: 1,
       orderBy: {
@@ -36,4 +35,6 @@ export const SELECT_BOARD = {
   },
 } satisfies Prisma.BoardDefaultArgs;
 
-export type SelectBoard = Prisma.BoardGetPayload<typeof SELECT_BOARD>;
+export type SelectBoardOverview = Prisma.BoardGetPayload<
+  typeof SELECT_BOARD_OVERVIEW
+>;

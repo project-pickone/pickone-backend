@@ -5,6 +5,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateBoardDto } from './dto/request/create-board.dto';
 import { SELECT_BOARD, SelectBoard } from './entity/prisma/select-board';
 import { UpdateBoardDto } from './dto/request/update-board.dto';
+import { GetBoardAllRequestDto } from './dto/request/get-board-all.dto';
+import { SELECT_BOARD_OVERVIEW } from './entity/prisma/select-board-overview';
 
 @Injectable()
 export class BoardRepository {
@@ -13,6 +15,31 @@ export class BoardRepository {
       TransactionalAdapterPrisma<PrismaClient>
     >,
   ) {}
+
+  public async selectBoardAll(dto: GetBoardAllRequestDto) {
+    return await this.txHost.tx.board.findMany({
+      select: SELECT_BOARD_OVERVIEW.select,
+      where: {
+        AND: [
+          { deletedAt: null },
+          dto.category
+            ? {
+                categories: {
+                  some: {
+                    categoryIdx: dto.category,
+                  },
+                },
+              }
+            : {},
+        ],
+      },
+      take: 10,
+      skip: (dto.page - 1) * 10,
+      orderBy: {
+        idx: 'desc',
+      },
+    });
+  }
 
   public async selectBoardByIdx(idx: number): Promise<SelectBoard | null> {
     return await this.txHost.tx.board.findUnique({
@@ -41,6 +68,13 @@ export class BoardRepository {
               sortOrder: i + 1,
               contents: option,
               count: 0,
+            })),
+          },
+        },
+        categories: {
+          createMany: {
+            data: dto.category.map((categoryIdx) => ({
+              categoryIdx,
             })),
           },
         },

@@ -1,4 +1,4 @@
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import { IsInt, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateBoardDto {
   /**
@@ -38,4 +38,10 @@ export class CreateBoardDto {
   @MinLength(1)
   @MaxLength(50)
   secondOption: string;
+
+  /**
+   * 카테고리
+   */
+  @IsInt({ each: true })
+  category: number[];
 }
