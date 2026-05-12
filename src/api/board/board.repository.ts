@@ -16,9 +16,31 @@ export class BoardRepository {
     >,
   ) {}
 
-  public async selectBoardAll(dto: GetBoardAllRequestDto) {
+  public async selectBoardCount(dto: GetBoardAllRequestDto): Promise<number> {
+    return await this.txHost.tx.board.count({
+      where: {
+        AND: [
+          { deletedAt: null },
+          dto.category
+            ? {
+                categories: {
+                  some: {
+                    categoryIdx: dto.category,
+                  },
+                },
+              }
+            : {},
+        ],
+      },
+    });
+  }
+
+  public async selectBoardAll(
+    dto: GetBoardAllRequestDto,
+    loginUserId?: string,
+  ) {
     return await this.txHost.tx.board.findMany({
-      select: SELECT_BOARD_OVERVIEW.select,
+      select: SELECT_BOARD_OVERVIEW(loginUserId).select,
       where: {
         AND: [
           { deletedAt: null },
@@ -41,10 +63,13 @@ export class BoardRepository {
     });
   }
 
-  public async selectBoardByIdx(idx: number): Promise<SelectBoard | null> {
+  public async selectBoardByIdx(
+    idx: number,
+    loginUserId?: string,
+  ): Promise<SelectBoard | null> {
     return await this.txHost.tx.board.findUnique({
       where: { idx, deletedAt: null },
-      ...SELECT_BOARD,
+      ...SELECT_BOARD(loginUserId),
     });
   }
 
@@ -53,7 +78,7 @@ export class BoardRepository {
     authorId: string,
   ): Promise<SelectBoard> {
     return await this.txHost.tx.board.create({
-      select: SELECT_BOARD.select,
+      select: SELECT_BOARD().select,
       data: {
         authorId,
         snapshots: {

@@ -10,7 +10,7 @@
     "show": 511,
     "database": 16,
     "databaseName": "pickone",
-    "canvasType": "@dineug/erd-editor/builtin-schema-sql",
+    "canvasType": "ERD",
     "language": 1,
     "tableNameCase": 4,
     "columnNameCase": 2,
@@ -215,15 +215,15 @@
           "BxUmVhZOryIvnRyP-dDuD"
         ],
         "ui": {
-          "x": 865,
-          "y": 549,
+          "x": 888,
+          "y": 556,
           "zIndex": 103,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FFC107"
         },
         "meta": {
-          "updateAt": 1777525933899,
+          "updateAt": 1778558260495,
           "createAt": 1777524931276
         }
       },
@@ -1661,8 +1661,8 @@
           "columnIds": [
             "wh9sNwCxY7c5QG-25u5Fe"
           ],
-          "x": 865,
-          "y": 587,
+          "x": 888,
+          "y": 594,
           "direction": 1
         },
         "meta": {
@@ -1689,8 +1689,8 @@
           "columnIds": [
             "HSnD9zi7QeolwjnZ_RvrP"
           ],
-          "x": 865,
-          "y": 663,
+          "x": 888,
+          "y": 670,
           "direction": 1
         },
         "meta": {
