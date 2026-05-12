@@ -35,11 +35,12 @@ CREATE TABLE board_options
 
 CREATE TABLE board_snapshots
 (
-  id         uuid                     NOT NULL DEFAULT uuid_generate_v4(),
-  board_idx  int                      NOT NULL,
-  title      varchar                  NOT NULL,
-  contents   varchar                  NOT NULL,
-  created_at timestamp with time zone NOT NULL DEFAULT NOW(),
+  id              uuid                     NOT NULL DEFAULT uuid_generate_v4(),
+  board_idx       int                      NOT NULL,
+  title           varchar                  NOT NULL,
+  thumbnail_path  varchar                 ,
+  contents        varchar                  NOT NULL,
+  created_at      timestamp with time zone NOT NULL DEFAULT NOW(),
   PRIMARY KEY (id)
 );
 

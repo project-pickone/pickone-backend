@@ -68,11 +68,12 @@ model BoardOption {
 }
 
 model BoardSnapshot {
-  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  boardIdx  Int      @map("board_idx")
-  title     String
-  contents  String
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  id            String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  boardIdx      Int      @map("board_idx")
+  thumbnailPath String?  @map("thumbnail_path")
+  title         String
+  contents      String
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
 
   board Board @relation(fields: [boardIdx], references: [idx])
 
