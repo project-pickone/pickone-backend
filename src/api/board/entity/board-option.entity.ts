@@ -27,6 +27,8 @@ export class BoardOptionEntity {
    */
   count: number;
 
+  voted: boolean;
+
   constructor(data: BoardOptionEntity) {
     Object.assign(this, data);
   }
@@ -37,6 +39,7 @@ export class BoardOptionEntity {
       sortOrder: option.sortOrder,
       content: option.contents,
       count: option.count,
+      voted: option.votes.length > 0,
     });
   }
 }
