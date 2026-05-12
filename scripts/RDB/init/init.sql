@@ -14,6 +14,15 @@ CREATE TABLE accounts
   PRIMARY KEY (id)
 );
 
+
+CREATE TABLE board_categories
+(
+  id           uuid NOT NULL DEFAULT uuid_generate_v4(),
+  board_idx    int  NOT NULL,
+  category_idx int  NOT NULL,
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE board_options
 (
   idx         int      NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -42,6 +51,16 @@ CREATE TABLE boards
   deleted_at timestamp with time zone,
   PRIMARY KEY (idx)
 );
+
+
+CREATE TABLE categories
+(
+  idx        int                      NOT NULL GENERATED ALWAYS AS IDENTITY,
+  name       varchar                  NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (idx)
+);
+
 
 CREATE TABLE comment_snapshots
 (
@@ -138,3 +157,13 @@ ALTER TABLE comments
   ADD CONSTRAINT FK_board_options_TO_comments
     FOREIGN KEY (option_idx)
     REFERENCES board_options (idx);
+
+ALTER TABLE board_categories
+  ADD CONSTRAINT FK_boards_TO_board_categories
+    FOREIGN KEY (board_idx)
+    REFERENCES boards (idx);
+
+ALTER TABLE board_categories
+  ADD CONSTRAINT FK_categories_TO_board_categories
+    FOREIGN KEY (category_idx)
+    REFERENCES categories (idx);
