@@ -44,10 +44,11 @@ model Board {
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
 
-  author    User            @relation(fields: [authorId], references: [id])
-  options   BoardOption[]
-  snapshots BoardSnapshot[]
-  comments  Comment[]
+  author     User            @relation(fields: [authorId], references: [id])
+  options    BoardOption[]
+  snapshots  BoardSnapshot[]
+  comments   Comment[]
+  categories BoardCategory[]
 
   @@map("boards")
 }
@@ -105,6 +106,27 @@ model CommentSnapshot {
 
   @@index([commentIdx, createdAt(sort: Desc)], name: "comment_snapshots_latest_idx")
   @@map("comment_snapshots")
+}
+
+model Category {
+  idx       Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  boards BoardCategory[]
+
+  @@map("categories")
+}
+
+model BoardCategory {
+  id          String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  boardIdx    Int    @map("board_idx")
+  categoryIdx Int    @map("category_idx")
+
+  board    Board    @relation(fields: [boardIdx], references: [idx])
+  category Category @relation(fields: [categoryIdx], references: [idx])
+
+  @@map("board_categories")
 }
 
 model Vote {
