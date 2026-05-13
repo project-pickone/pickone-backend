@@ -53,6 +53,17 @@ export class BoardRepository {
                 },
               }
             : {},
+          dto.authorId ? { authorId: dto.authorId } : {},
+          dto.myVote !== undefined && loginUserId
+            ? {
+                votes: {
+                  some: {
+                    userId: loginUserId,
+                    optionIdx: dto.myVote,
+                  },
+                },
+              }
+            : {},
         ],
       },
       take: 10,
