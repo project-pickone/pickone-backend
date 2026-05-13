@@ -46,10 +46,11 @@ CREATE TABLE board_snapshots
 
 CREATE TABLE boards
 (
-  idx        int                      NOT NULL GENERATED ALWAYS AS IDENTITY,
-  author_id  uuid                     NOT NULL,
-  created_at timestamp with time zone NOT NULL DEFAULT NOW(),
-  deleted_at timestamp with time zone,
+  idx            int                      NOT NULL GENERATED ALWAYS AS IDENTITY,
+  author_id      uuid                     NOT NULL,
+  comment_count  int                      NOT NULL DEFAULT 0,
+  created_at     timestamp with time zone NOT NULL DEFAULT NOW(),
+  deleted_at     timestamp with time zone,
   PRIMARY KEY (idx)
 );
 

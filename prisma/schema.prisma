@@ -39,10 +39,11 @@ model Account {
 }
 
 model Board {
-  idx       Int       @id @default(autoincrement())
-  authorId  String    @map("author_id") @db.Uuid
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+  idx          Int       @id @default(autoincrement())
+  authorId     String    @map("author_id") @db.Uuid
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz
+  commentCount Int       @default(0) @map("comment_count")
 
   author     User            @relation(fields: [authorId], references: [id])
   options    BoardOption[]
