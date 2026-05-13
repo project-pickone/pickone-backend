@@ -75,13 +75,33 @@ CREATE TABLE comment_snapshots
 
 CREATE TABLE comments
 (
-  idx        int                      NOT NULL GENERATED ALWAYS AS IDENTITY,
-  board_idx  int                      NOT NULL,
-  author_id  uuid                     NOT NULL,
-  option_idx int                      NOT NULL,
-  created_at timestamp with time zone NOT NULL DEFAULT NOW(),
-  deleted_at timestamp with time zone,
+  idx           int                      NOT NULL GENERATED ALWAYS AS IDENTITY,
+  board_idx     int                      NOT NULL,
+  author_id     uuid                     NOT NULL,
+  option_idx    int                      NOT NULL,
+  like_count    int                      NOT NULL DEFAULT 0,
+  dislike_count int                      NOT NULL DEFAULT 0,
+  created_at    timestamp with time zone NOT NULL DEFAULT NOW(),
+  deleted_at    timestamp with time zone,
   PRIMARY KEY (idx)
+);
+
+CREATE TABLE comment_likes
+(
+  id          uuid                     NOT NULL DEFAULT uuid_generate_v4(),
+  comment_idx int                      NOT NULL,
+  user_id     uuid                     NOT NULL,
+  created_at  timestamp with time zone NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE comment_dislikes
+(
+  id          uuid                     NOT NULL DEFAULT uuid_generate_v4(),
+  comment_idx int                      NOT NULL,
+  user_id     uuid                     NOT NULL,
+  created_at  timestamp with time zone NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE users
@@ -169,3 +189,23 @@ ALTER TABLE board_categories
   ADD CONSTRAINT FK_categories_TO_board_categories
     FOREIGN KEY (category_idx)
     REFERENCES categories (idx);
+
+ALTER TABLE comment_likes
+  ADD CONSTRAINT FK_comments_TO_comment_likes
+    FOREIGN KEY (comment_idx)
+    REFERENCES comments (idx);
+
+ALTER TABLE comment_likes
+  ADD CONSTRAINT FK_users_TO_comment_likes
+    FOREIGN KEY (user_id)
+    REFERENCES users (id);
+
+ALTER TABLE comment_dislikes
+  ADD CONSTRAINT FK_comments_TO_comment_dislikes
+    FOREIGN KEY (comment_idx)
+    REFERENCES comments (idx);
+
+ALTER TABLE comment_dislikes
+  ADD CONSTRAINT FK_users_TO_comment_dislikes
+    FOREIGN KEY (user_id)
+    REFERENCES users (id);

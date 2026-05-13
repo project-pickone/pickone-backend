@@ -20,10 +20,12 @@ model User {
   createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
   deletedAt  DateTime? @map("deleted_at") @db.Timestamptz
 
-  account  Account?
-  boards   Board[]
-  comments Comment[]
-  votes    Vote[]
+  account         Account?
+  boards          Board[]
+  comments        Comment[]
+  votes           Vote[]
+  commentLikes    CommentLike[]
+  commentDislikes CommentDislike[]
 
   @@map("users")
 }
@@ -83,19 +85,47 @@ model BoardSnapshot {
 }
 
 model Comment {
-  idx       Int       @id @default(autoincrement())
-  boardIdx  Int       @map("board_idx")
-  authorId  String    @map("author_id") @db.Uuid
-  optionIdx Int       @map("option_idx")
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+  idx          Int       @id @default(autoincrement())
+  boardIdx     Int       @map("board_idx")
+  authorId     String    @map("author_id") @db.Uuid
+  optionIdx    Int       @map("option_idx")
+  likeCount    Int       @default(0) @map("like_count")
+  dislikeCount Int       @default(0) @map("dislike_count")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz
 
   board     Board             @relation(fields: [boardIdx], references: [idx])
   author    User              @relation(fields: [authorId], references: [id])
   option    BoardOption       @relation(fields: [optionIdx], references: [idx])
   snapshots CommentSnapshot[]
+  likes     CommentLike[]
+  dislikes  CommentDislike[]
 
   @@map("comments")
+}
+
+model CommentLike {
+  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  commentIdx Int      @map("comment_idx")
+  userId     String   @map("user_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  comment Comment @relation(fields: [commentIdx], references: [idx])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@map("comment_likes")
+}
+
+model CommentDislike {
+  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  commentIdx Int      @map("comment_idx")
+  userId     String   @map("user_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  comment Comment @relation(fields: [commentIdx], references: [idx])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@map("comment_dislikes")
 }
 
 model CommentSnapshot {

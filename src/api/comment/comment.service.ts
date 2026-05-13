@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -35,7 +36,11 @@ export class CommentService {
 
     return {
       commentList: (
-        await this.commentRepository.selectCommentAll(boardIdx, dto.page)
+        await this.commentRepository.selectCommentAll(
+          boardIdx,
+          dto.page,
+          loginUser.id,
+        )
       ).map(CommentEntity.fromPrisma),
       count: await this.commentRepository.selectCommentCount(boardIdx),
     };
@@ -55,7 +60,9 @@ export class CommentService {
       throw new NotFoundException('게시글을 찾을 수 없습니다.');
     }
 
-    if (board.options.findIndex((option) => option.idx === dto.optionIdx) === -1) {
+    if (
+      board.options.findIndex((option) => option.idx === dto.optionIdx) === -1
+    ) {
       throw new BadRequestException('유효하지 않은 옵션입니다.');
     }
 
@@ -116,5 +123,105 @@ export class CommentService {
     }
 
     await this.commentRepository.deleteCommentByIdx(commentIdx, boardIdx);
+  }
+
+  // ── Like ───────────────────────────────────────────────────────────────
+
+  public async likeComment(
+    commentIdx: number,
+    loginUser: LoginUser,
+  ): Promise<void> {
+    const comment = await this.commentRepository.selectCommentByIdx(commentIdx);
+
+    if (!comment) {
+      throw new NotFoundException('댓글을 찾을 수 없습니다.');
+    }
+
+    const [existingLike, existingDislike] = await Promise.all([
+      this.commentRepository.selectCommentLike(commentIdx, loginUser.id),
+      this.commentRepository.selectCommentDislike(commentIdx, loginUser.id),
+    ]);
+
+    if (existingLike) {
+      throw new ConflictException('이미 좋아요한 댓글입니다.');
+    }
+
+    if (existingDislike) {
+      throw new BadRequestException('싫어요한 댓글에는 좋아요할 수 없습니다.');
+    }
+
+    await this.commentRepository.insertCommentLike(commentIdx, loginUser.id);
+  }
+
+  public async unlikeComment(
+    commentIdx: number,
+    loginUser: LoginUser,
+  ): Promise<void> {
+    const comment = await this.commentRepository.selectCommentByIdx(commentIdx);
+
+    if (!comment) {
+      throw new NotFoundException('댓글을 찾을 수 없습니다.');
+    }
+
+    const existingLike = await this.commentRepository.selectCommentLike(
+      commentIdx,
+      loginUser.id,
+    );
+
+    if (!existingLike) {
+      throw new NotFoundException('좋아요하지 않은 댓글입니다.');
+    }
+
+    await this.commentRepository.deleteCommentLike(commentIdx, loginUser.id);
+  }
+
+  // ── Dislike ────────────────────────────────────────────────────────────
+
+  public async dislikeComment(
+    commentIdx: number,
+    loginUser: LoginUser,
+  ): Promise<void> {
+    const comment = await this.commentRepository.selectCommentByIdx(commentIdx);
+
+    if (!comment) {
+      throw new NotFoundException('댓글을 찾을 수 없습니다.');
+    }
+
+    const [existingDislike, existingLike] = await Promise.all([
+      this.commentRepository.selectCommentDislike(commentIdx, loginUser.id),
+      this.commentRepository.selectCommentLike(commentIdx, loginUser.id),
+    ]);
+
+    if (existingDislike) {
+      throw new ConflictException('이미 싫어요한 댓글입니다.');
+    }
+
+    if (existingLike) {
+      throw new BadRequestException('좋아요한 댓글에는 싫어요할 수 없습니다.');
+    }
+
+    await this.commentRepository.insertCommentDislike(commentIdx, loginUser.id);
+  }
+
+  public async undislikeComment(
+    commentIdx: number,
+    loginUser: LoginUser,
+  ): Promise<void> {
+    const comment = await this.commentRepository.selectCommentByIdx(commentIdx);
+
+    if (!comment) {
+      throw new NotFoundException('댓글을 찾을 수 없습니다.');
+    }
+
+    const existingDislike = await this.commentRepository.selectCommentDislike(
+      commentIdx,
+      loginUser.id,
+    );
+
+    if (!existingDislike) {
+      throw new NotFoundException('싫어요하지 않은 댓글입니다.');
+    }
+
+    await this.commentRepository.deleteCommentDislike(commentIdx, loginUser.id);
   }
 }

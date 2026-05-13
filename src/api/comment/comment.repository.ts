@@ -21,9 +21,10 @@ export class CommentRepository {
   public async selectCommentAll(
     boardIdx: number,
     page: number,
+    loginUserId: string,
   ): Promise<SelectComment[]> {
     return await this.txHost.tx.comment.findMany({
-      select: SELECT_COMMENT.select,
+      select: SELECT_COMMENT(loginUserId).select,
       where: { boardIdx, deletedAt: null },
       take: 10,
       skip: (page - 1) * 10,
@@ -34,7 +35,7 @@ export class CommentRepository {
   public async selectCommentByIdx(idx: number): Promise<SelectComment | null> {
     return await this.txHost.tx.comment.findUnique({
       where: { idx, deletedAt: null },
-      ...SELECT_COMMENT,
+      ...SELECT_COMMENT(),
     });
   }
 
@@ -45,7 +46,7 @@ export class CommentRepository {
     contents: string,
   ): Promise<SelectComment> {
     const comment = await this.txHost.tx.comment.create({
-      select: SELECT_COMMENT.select,
+      select: SELECT_COMMENT().select,
       data: {
         boardIdx,
         optionIdx,
@@ -88,6 +89,78 @@ export class CommentRepository {
     await this.txHost.tx.board.update({
       where: { idx: boardIdx },
       data: { commentCount: { decrement: 1 } },
+    });
+  }
+
+  // ── Like ───────────────────────────────────────────────────────────────
+
+  public async selectCommentLike(commentIdx: number, userId: string) {
+    return await this.txHost.tx.commentLike.findFirst({
+      where: { commentIdx, userId },
+    });
+  }
+
+  public async insertCommentLike(
+    commentIdx: number,
+    userId: string,
+  ): Promise<void> {
+    await this.txHost.tx.commentLike.create({
+      data: { commentIdx, userId },
+    });
+
+    await this.txHost.tx.comment.update({
+      where: { idx: commentIdx },
+      data: { likeCount: { increment: 1 } },
+    });
+  }
+
+  public async deleteCommentLike(
+    commentIdx: number,
+    userId: string,
+  ): Promise<void> {
+    await this.txHost.tx.commentLike.deleteMany({
+      where: { commentIdx, userId },
+    });
+
+    await this.txHost.tx.comment.update({
+      where: { idx: commentIdx },
+      data: { likeCount: { decrement: 1 } },
+    });
+  }
+
+  // ── Dislike ────────────────────────────────────────────────────────────
+
+  public async selectCommentDislike(commentIdx: number, userId: string) {
+    return await this.txHost.tx.commentDislike.findFirst({
+      where: { commentIdx, userId },
+    });
+  }
+
+  public async insertCommentDislike(
+    commentIdx: number,
+    userId: string,
+  ): Promise<void> {
+    await this.txHost.tx.commentDislike.create({
+      data: { commentIdx, userId },
+    });
+
+    await this.txHost.tx.comment.update({
+      where: { idx: commentIdx },
+      data: { dislikeCount: { increment: 1 } },
+    });
+  }
+
+  public async deleteCommentDislike(
+    commentIdx: number,
+    userId: string,
+  ): Promise<void> {
+    await this.txHost.tx.commentDislike.deleteMany({
+      where: { commentIdx, userId },
+    });
+
+    await this.txHost.tx.comment.update({
+      where: { idx: commentIdx },
+      data: { dislikeCount: { decrement: 1 } },
     });
   }
 }

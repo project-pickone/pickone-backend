@@ -96,4 +96,64 @@ export class CommentController {
       loginUser,
     );
   }
+
+  /**
+   * 댓글 좋아요 API
+   */
+  @Post('/:commentIdx/like')
+  @Exception(400, 'already disliked')
+  @Exception(404, 'comment not found')
+  @Exception(409, 'already liked')
+  @Auth()
+  public async likeComment(
+    @User() loginUser: LoginUser,
+    @Param('boardIdx', ParseIntPipe) _boardIdx: number,
+    @Param('commentIdx', ParseIntPipe) commentIdx: number,
+  ): Promise<void> {
+    return await this.commentService.likeComment(commentIdx, loginUser);
+  }
+
+  /**
+   * 댓글 좋아요 취소 API
+   */
+  @Delete('/:commentIdx/like')
+  @Exception(404, 'comment not found or not liked')
+  @Auth()
+  public async unlikeComment(
+    @User() loginUser: LoginUser,
+    @Param('boardIdx', ParseIntPipe) _boardIdx: number,
+    @Param('commentIdx', ParseIntPipe) commentIdx: number,
+  ): Promise<void> {
+    return await this.commentService.unlikeComment(commentIdx, loginUser);
+  }
+
+  /**
+   * 댓글 싫어요 API
+   */
+  @Post('/:commentIdx/dislike')
+  @Exception(400, 'already liked')
+  @Exception(404, 'comment not found')
+  @Exception(409, 'already disliked')
+  @Auth()
+  public async dislikeComment(
+    @User() loginUser: LoginUser,
+    @Param('boardIdx', ParseIntPipe) _boardIdx: number,
+    @Param('commentIdx', ParseIntPipe) commentIdx: number,
+  ): Promise<void> {
+    return await this.commentService.dislikeComment(commentIdx, loginUser);
+  }
+
+  /**
+   * 댓글 싫어요 취소 API
+   */
+  @Delete('/:commentIdx/dislike')
+  @Exception(404, 'comment not found or not disliked')
+  @Auth()
+  public async undislikeComment(
+    @User() loginUser: LoginUser,
+    @Param('boardIdx', ParseIntPipe) _boardIdx: number,
+    @Param('commentIdx', ParseIntPipe) commentIdx: number,
+  ): Promise<void> {
+    return await this.commentService.undislikeComment(commentIdx, loginUser);
+  }
 }
