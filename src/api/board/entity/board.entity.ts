@@ -31,6 +31,13 @@ export class BoardEntity {
 
   categoryList: BoardCategoryEntity[];
 
+  /**
+   * 댓글 수
+   *
+   * @example 123
+   */
+  commentCount: number;
+
   createdAt: Date;
 
   constructor(data: BoardEntity) {
@@ -43,6 +50,7 @@ export class BoardEntity {
       author: BoardAuthorEntity.fromPrisma(board.author),
       title: board.snapshots[0].title,
       contents: board.snapshots[0].contents,
+      commentCount: board.commentCount,
       options: board.options.map((option) =>
         BoardOptionEntity.fromPrisma(option),
       ),

@@ -7,6 +7,7 @@ export const SELECT_BOARD_OVERVIEW = (loginUserId?: string) =>
   ({
     select: {
       idx: true,
+      commentCount: true,
       author: {
         select: SELECT_BOARD_AUTHOR.select,
       },

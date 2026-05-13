@@ -12,6 +12,7 @@ export class BoardOverviewEntity extends PickType(BoardEntity, [
   'options',
   'categoryList',
   'createdAt',
+  'commentCount',
 ] as const) {
   constructor(data: BoardOverviewEntity) {
     super();
@@ -21,6 +22,7 @@ export class BoardOverviewEntity extends PickType(BoardEntity, [
   public static fromPrisma(board: SelectBoardOverview): BoardOverviewEntity {
     return new BoardOverviewEntity({
       idx: board.idx,
+      commentCount: board.commentCount,
       author: BoardAuthorEntity.fromPrisma(board.author),
       title: board.snapshots[0].title,
       options: board.options.map((option) =>

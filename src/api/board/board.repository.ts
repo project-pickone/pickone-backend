@@ -54,12 +54,15 @@ export class BoardRepository {
               }
             : {},
           dto.authorId ? { authorId: dto.authorId } : {},
-          dto.myVote !== undefined && loginUserId
+          dto.myVote
             ? {
-                votes: {
+                options: {
                   some: {
-                    userId: loginUserId,
-                    optionIdx: dto.myVote,
+                    votes: {
+                      some: {
+                        userId: loginUserId,
+                      },
+                    },
                   },
                 },
               }
