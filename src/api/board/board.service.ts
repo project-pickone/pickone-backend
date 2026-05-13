@@ -19,7 +19,7 @@ export class BoardService {
     return {
       boardList: (
         await this.boardRepository.selectBoardAll(dto, loginUser.id)
-      ).map((board) => BoardOverviewEntity.fromPrisma),
+      ).map(BoardOverviewEntity.fromPrisma),
       count: await this.boardRepository.selectBoardCount(dto),
     };
   }

@@ -36,6 +36,7 @@ export const SELECT_BOARD_OVERVIEW = (loginUserId?: string) =>
     },
   }) satisfies Prisma.BoardDefaultArgs;
 
-export type SelectBoardOverview = Prisma.BoardGetPayload<
-  ReturnType<typeof SELECT_BOARD_OVERVIEW>
->;
+type SelectBoardOverviewArgs = ReturnType<typeof SELECT_BOARD_OVERVIEW>;
+
+export type SelectBoardOverview =
+  Prisma.BoardGetPayload<SelectBoardOverviewArgs>;
