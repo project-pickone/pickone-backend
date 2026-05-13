@@ -5,6 +5,7 @@ import { Exception } from '../../common/decorators/exception.decorator';
 import { SignupDto } from './dto/request/signup.dto';
 import { Auth } from '../../common/decorators/auth.decorator';
 import { LoginUser, User } from '../../common/decorators/user.decorator';
+import { DuplicateCheckDto } from './dto/request/id-duplicate-check.dto';
 
 @Controller('user')
 @ApiTags('User')
@@ -28,5 +29,15 @@ export class UserController {
   @Auth()
   public async getMyInfo(@User() loginUser: LoginUser) {
     return await this.userService.getMyInfo(loginUser);
+  }
+
+  /**
+   * 아이디 중복 확인 API
+   */
+  @Post('duplicate-check')
+  public async checkIdDuplicate(
+    @Body() dto: DuplicateCheckDto,
+  ): Promise<boolean> {
+    return (await this.userService.checkIdDuplicate(dto)).isDuplicate;
   }
 }

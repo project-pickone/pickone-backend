@@ -10,6 +10,7 @@ import { Transactional } from '@nestjs-cls/transactional';
 import { HashService } from '../../common/modules/hash/hash.service';
 import { UserEntity } from './entity/user.entity';
 import { LoginUser } from '../../common/decorators/user.decorator';
+import { DuplicateCheckDto } from './dto/request/id-duplicate-check.dto';
 
 @Injectable()
 export class UserService {
@@ -48,5 +49,15 @@ export class UserService {
     }
 
     return UserEntity.fromPrisma(user);
+  }
+
+  public async checkIdDuplicate(
+    dto: DuplicateCheckDto,
+  ): Promise<{ isDuplicate: boolean }> {
+    const alreadyExist = await this.accountRepository.selectAccountByUserId(
+      dto.id,
+    );
+
+    return { isDuplicate: !!alreadyExist };
   }
 }
