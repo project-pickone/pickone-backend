@@ -77,6 +77,23 @@ export class BoardRepository {
     });
   }
 
+  public async selectHotBoardAll(loginUserId?: string) {
+    return await this.txHost.tx.board.findMany({
+      select: SELECT_BOARD_OVERVIEW(loginUserId).select,
+      where: {
+        deletedAt: null,
+        snapshots: {
+          some: {
+            thumbnailPath: { not: null },
+          },
+        },
+      },
+      orderBy: {
+        idx: 'desc',
+      },
+    });
+  }
+
   public async selectBoardByIdx(
     idx: number,
     loginUserId?: string,
@@ -99,6 +116,7 @@ export class BoardRepository {
           create: {
             title: dto.title,
             contents: dto.contents,
+            thumbnailPath: dto.thumbnailPath,
           },
         },
         options: {

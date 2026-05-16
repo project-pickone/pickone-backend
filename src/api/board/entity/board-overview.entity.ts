@@ -14,6 +14,13 @@ export class BoardOverviewEntity extends PickType(BoardEntity, [
   'createdAt',
   'commentCount',
 ] as const) {
+  /**
+   * 썸네일 경로
+   *
+   * @example "/public/abc.jpg"
+   */
+  thumbnailPath: string | null;
+
   constructor(data: BoardOverviewEntity) {
     super();
     Object.assign(this, data);
@@ -25,6 +32,7 @@ export class BoardOverviewEntity extends PickType(BoardEntity, [
       commentCount: board.commentCount,
       author: BoardAuthorEntity.fromPrisma(board.author),
       title: board.snapshots[0].title,
+      thumbnailPath: board.snapshots[0].thumbnailPath,
       options: board.options.map((option) =>
         BoardOptionEntity.fromPrisma(option),
       ),

@@ -15,6 +15,7 @@ import { LoginUser, User } from '../../common/decorators/user.decorator';
 import { CreateBoardDto } from './dto/request/create-board.dto';
 import { BoardService } from './board.service';
 import { BoardEntity } from './entity/board.entity';
+import { BoardOverviewEntity } from './entity/board-overview.entity';
 import { Auth } from '../../common/decorators/auth.decorator';
 import { GetBoardAllRequestDto } from './dto/request/get-board-all.dto';
 import { GetBoardAllResponseDto } from './dto/response/get-board-all-response.dto';
@@ -35,6 +36,17 @@ export class BoardController {
     @Query() dto: GetBoardAllRequestDto,
   ): Promise<GetBoardAllResponseDto> {
     return await this.boardService.getBoardAll(dto, loginUser);
+  }
+
+  /**
+   * 인기 게시판 목록 API (썸네일 있는 게시글 중 투표 수 많은 순)
+   */
+  @Get('hot/all')
+  @Auth()
+  public async getHotBoards(
+    @User() loginUser: LoginUser,
+  ): Promise<BoardOverviewEntity[]> {
+    return await this.boardService.getHotBoardAll(loginUser);
   }
 
   /**

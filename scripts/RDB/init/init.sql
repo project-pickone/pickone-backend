@@ -209,3 +209,13 @@ ALTER TABLE comment_dislikes
   ADD CONSTRAINT FK_users_TO_comment_dislikes
     FOREIGN KEY (user_id)
     REFERENCES users (id);
+
+INSERT INTO categories (name) VALUES
+  ('주식'),
+  ('연애'),
+  ('일상'),
+  ('스포츠'),
+  ('핫이슈'),
+  ('정치'),
+  ('롤'),
+  ('오버워치');

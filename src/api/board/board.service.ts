@@ -24,6 +24,18 @@ export class BoardService {
     };
   }
 
+  public async getHotBoardAll(loginUser: LoginUser) {
+    const boards = await this.boardRepository.selectHotBoardAll(loginUser.id);
+
+    return boards
+      .map(BoardOverviewEntity.fromPrisma)
+      .sort(
+        (a, b) =>
+          b.options.reduce((sum, o) => sum + o.count, 0) -
+          a.options.reduce((sum, o) => sum + o.count, 0),
+      );
+  }
+
   public async createBoard(
     loginUser: LoginUser,
     dto: CreateBoardDto,

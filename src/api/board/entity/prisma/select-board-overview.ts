@@ -14,6 +14,7 @@ export const SELECT_BOARD_OVERVIEW = (loginUserId?: string) =>
       snapshots: {
         select: {
           title: true,
+          thumbnailPath: true,
         },
         take: 1,
         orderBy: {

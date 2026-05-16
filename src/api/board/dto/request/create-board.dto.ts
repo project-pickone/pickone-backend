@@ -1,6 +1,15 @@
-import { IsInt, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsInt, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateBoardDto {
+  /**
+   * 썸네일 경로
+   *
+   * @example "/public/abc.jpg"
+   */
+  @IsOptional()
+  @IsString()
+  thumbnailPath?: string;
+
   /**
    * @example "삼권분립이 꼭 필요한가요?"
    */
