@@ -11,6 +11,7 @@ import { LoginTokenModule } from './common/modules/login-token/login-token.modul
 import { BoardModule } from './api/board/board.module';
 import { CommentModule } from './api/comment/comment.module';
 import { VoteModule } from './api/vote/vote.module';
+import { FileModule } from './api/file/file.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { VoteModule } from './api/vote/vote.module';
     AuthModule,
     BoardModule,
     CommentModule,
+    FileModule,
   ],
   controllers: [],
   providers: [],
