@@ -1,6 +1,6 @@
 import { Optional } from '@nestjs/common';
 import { Type } from 'class-transformer';
-import { IsIn, IsString } from 'class-validator';
+import { IsIn, IsOptional, IsString } from 'class-validator';
 
 export class GetBoardAllRequestDto {
   /**
@@ -17,11 +17,11 @@ export class GetBoardAllRequestDto {
    * @example 1
    */
   @Type(() => Number)
-  @Optional()
+  @IsOptional()
   category?: number;
 
   @IsString()
-  @Optional()
+  @IsOptional()
   authorId?: string;
 
   /**
@@ -29,6 +29,6 @@ export class GetBoardAllRequestDto {
    */
   @Type(() => Number)
   @IsIn([1])
-  @Optional()
+  @IsOptional()
   myVote?: 1;
 }
