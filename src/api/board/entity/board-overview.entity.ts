@@ -13,14 +13,8 @@ export class BoardOverviewEntity extends PickType(BoardEntity, [
   'categoryList',
   'createdAt',
   'commentCount',
+  'thumbnailPath',
 ] as const) {
-  /**
-   * 썸네일 경로
-   *
-   * @example "/public/abc.jpg"
-   */
-  thumbnailPath: string | null;
-
   constructor(data: BoardOverviewEntity) {
     super();
     Object.assign(this, data);

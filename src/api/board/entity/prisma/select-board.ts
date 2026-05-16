@@ -15,6 +15,7 @@ export const SELECT_BOARD = (loginUserId?: string) =>
         select: {
           title: true,
           contents: true,
+          thumbnailPath: true,
         },
         take: 1,
         orderBy: {

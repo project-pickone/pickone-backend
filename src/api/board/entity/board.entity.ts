@@ -27,6 +27,13 @@ export class BoardEntity {
    */
   contents: string;
 
+  /**
+   * 썸네일 경로
+   *
+   * @example "/public/abc.jpg"
+   */
+  thumbnailPath: string | null;
+
   options: BoardOptionEntity[];
 
   categoryList: BoardCategoryEntity[];
@@ -58,6 +65,7 @@ export class BoardEntity {
       categoryList: board.categories.map(({ category }) =>
         BoardCategoryEntity.fromPrisma(category),
       ),
+      thumbnailPath: board.snapshots[0].thumbnailPath,
     });
   }
 }

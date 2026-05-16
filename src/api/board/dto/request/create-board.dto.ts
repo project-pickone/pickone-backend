@@ -1,4 +1,10 @@
-import { IsInt, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateBoardDto {
   /**
@@ -8,7 +14,7 @@ export class CreateBoardDto {
    */
   @IsOptional()
   @IsString()
-  thumbnailPath?: string;
+  thumbnail?: string;
 
   /**
    * @example "삼권분립이 꼭 필요한가요?"

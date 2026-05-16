@@ -19,7 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "dev-infra:up": "docker compose -f ./scripts/docker-compose.yml up -d",
-    "dev-infra:down": "docker compose -f ./scripts/docker-compose.yml down -v"
+    "dev-infra:down": "docker compose -f ./scripts/docker-compose.yml down -v",
+    "dev-infra:connect": "docker exec -it pickone-dev-postgres psql -U db_admin -d pickone"
   },
   "dependencies": {
     "@nestjs-cls/transactional": "^3.2.0",

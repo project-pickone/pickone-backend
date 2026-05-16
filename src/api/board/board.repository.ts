@@ -116,7 +116,7 @@ export class BoardRepository {
           create: {
             title: dto.title,
             contents: dto.contents,
-            thumbnailPath: dto.thumbnailPath,
+            thumbnailPath: dto.thumbnail,
           },
         },
         options: {
