@@ -30,8 +30,6 @@ async function bootstrap() {
     }),
   );
 
-  app.enableCors({});
-
   const config = new DocumentBuilder()
     .setTitle('pickone API')
     .setDescription('pickone API')
