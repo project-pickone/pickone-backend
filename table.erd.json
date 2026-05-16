@@ -75,6 +75,7 @@
           "H8AedCipVax31gzm1JON3",
           "wHsOneQDEf5kjsxvWAcWG",
           "i15gdkVXsVkUKffxxoIRw",
+          "XFkpbJiEsSDKtpkvdi6bP",
           "E8eO-slbG0sKIf6pCDnXc",
           "lCpcsu5NInAvwS40l52_s",
           "PY7jPtPZgl1WJAuTyfc1S"
@@ -86,6 +87,7 @@
           "wHsOneQDEf5kjsxvWAcWG",
           "i15gdkVXsVkUKffxxoIRw",
           "Jo7z-sXrBqUkeAyF2jja_",
+          "XFkpbJiEsSDKtpkvdi6bP",
           "E8eO-slbG0sKIf6pCDnXc",
           "lCpcsu5NInAvwS40l52_s",
           "PY7jPtPZgl1WJAuTyfc1S"
@@ -99,7 +101,7 @@
           "color": "#2196F3"
         },
         "meta": {
-          "updateAt": 1778654916626,
+          "updateAt": 1778728393968,
           "createAt": 1777523385524
         }
       },
@@ -1843,6 +1845,26 @@
           "updateAt": 1778654957669,
           "createAt": 1778654955723
         }
+      },
+      "XFkpbJiEsSDKtpkvdi6bP": {
+        "id": "XFkpbJiEsSDKtpkvdi6bP",
+        "tableId": "sRQDh2A5zr_vCuxSk1bxG",
+        "name": "gender",
+        "comment": "",
+        "dataType": "smallint",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1778728392349,
+          "createAt": 1778728387167
+        }
       }
     },
     "relationshipEntities": {
@@ -1857,7 +1879,7 @@
             "H8AedCipVax31gzm1JON3"
           ],
           "x": 340.375,
-          "y": 322,
+          "y": 346,
           "direction": 8
         },
         "end": {
@@ -1941,7 +1963,7 @@
             "H8AedCipVax31gzm1JON3"
           ],
           "x": 833,
-          "y": 272,
+          "y": 290,
           "direction": 2
         },
         "end": {
@@ -1997,7 +2019,7 @@
             "H8AedCipVax31gzm1JON3"
           ],
           "x": 833,
-          "y": 172,
+          "y": 178,
           "direction": 2
         },
         "end": {
@@ -2053,7 +2075,7 @@
             "H8AedCipVax31gzm1JON3"
           ],
           "x": 481.125,
-          "y": 322,
+          "y": 346,
           "direction": 8
         },
         "end": {
@@ -2221,7 +2243,7 @@
             "H8AedCipVax31gzm1JON3"
           ],
           "x": 762.625,
-          "y": 322,
+          "y": 346,
           "direction": 8
         },
         "end": {
@@ -2277,7 +2299,7 @@
             "H8AedCipVax31gzm1JON3"
           ],
           "x": 621.875,
-          "y": 322,
+          "y": 346,
           "direction": 8
         },
         "end": {

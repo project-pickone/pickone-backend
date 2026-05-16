@@ -23,11 +23,13 @@ export class UserRepository {
         profileImg: true,
         createdAt: true,
         birth: true,
+        gender: true,
       },
       data: {
         nickname: dto.nickname,
         profileImg: dto.profileImg,
         birth: dto.birth + 'T00:00:00.000Z',
+        gender: dto.gender,
       },
     });
   }
@@ -40,6 +42,7 @@ export class UserRepository {
         profileImg: true,
         createdAt: true,
         birth: true,
+        gender: true,
       },
       where: {
         id: userId,
@@ -72,6 +75,7 @@ export class UserRepository {
         profileImg: true,
         createdAt: true,
         birth: true,
+        gender: true,
       },
     });
   }

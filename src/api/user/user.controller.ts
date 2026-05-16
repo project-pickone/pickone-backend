@@ -6,6 +6,7 @@ import { SignupDto } from './dto/request/signup.dto';
 import { Auth } from '../../common/decorators/auth.decorator';
 import { LoginUser, User } from '../../common/decorators/user.decorator';
 import { DuplicateCheckDto } from './dto/request/id-duplicate-check.dto';
+import { UserEntity } from './entity/user.entity';
 
 @Controller('user')
 @ApiTags('User')
@@ -18,7 +19,7 @@ export class UserController {
   @Post()
   @Exception(400, 'invalid body')
   @Exception(409, 'user already exists')
-  public async signup(@Body() dto: SignupDto) {
+  public async signup(@Body() dto: SignupDto): Promise<UserEntity> {
     return await this.userService.signUp(dto);
   }
 
@@ -27,7 +28,7 @@ export class UserController {
    */
   @Get('me')
   @Auth()
-  public async getMyInfo(@User() loginUser: LoginUser) {
+  public async getMyInfo(@User() loginUser: LoginUser): Promise<UserEntity> {
     return await this.userService.getMyInfo(loginUser);
   }
 
@@ -38,6 +39,6 @@ export class UserController {
   public async checkIdDuplicate(
     @Body() dto: DuplicateCheckDto,
   ): Promise<boolean> {
-    return (await this.userService.checkIdDuplicate(dto)).isDuplicate;
+    return !(await this.userService.checkIdDuplicate(dto)).isDuplicate;
   }
 }

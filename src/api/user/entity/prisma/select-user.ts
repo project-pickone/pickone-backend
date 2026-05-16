@@ -7,6 +7,7 @@ export const SELECT_USER = {
     birth: true,
     profileImg: true,
     createdAt: true,
+    gender: true,
   },
 } satisfies Prisma.UserDefaultArgs;
 

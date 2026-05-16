@@ -1,4 +1,5 @@
 import {
+  IsInt,
   IsOptional,
   IsString,
   Matches,
@@ -34,6 +35,17 @@ export class SignupDto {
   @MinLength(8)
   @MaxLength(30)
   public password: string;
+
+  /**
+   * 성별
+   *
+   * 1: 남자
+   * 2: 여자
+   *
+   * @example 1
+   */
+  @IsInt()
+  public gender: number;
 
   /**
    * YYYY-MM-DD

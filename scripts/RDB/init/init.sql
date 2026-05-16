@@ -110,6 +110,7 @@ CREATE TABLE users
   nickname     varchar                  NOT NULL,
   birth        date                     NOT NULL,
   profile_img  varchar                  NULL,
+  gender       smallint                 NOT NULL,
   created_at   timestamp with time zone NOT NULL DEFAULT NOW(),
   deleted_at   timestamp with time zone,
   PRIMARY KEY (id)

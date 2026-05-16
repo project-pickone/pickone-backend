@@ -5,6 +5,7 @@ export class UserEntity {
   public nickname: string;
   public profileImage: string | null;
   public birth: Date;
+  public gender: number;
   public createdAt: Date;
 
   constructor(data: UserEntity) {
@@ -17,6 +18,7 @@ export class UserEntity {
       nickname: user.nickname,
       profileImage: user.profileImg,
       birth: user.birth,
+      gender: user.gender,
       createdAt: user.createdAt,
     });
   }

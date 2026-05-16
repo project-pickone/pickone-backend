@@ -17,6 +17,7 @@ model User {
   nickname   String
   birth      DateTime  @db.Date
   profileImg String?   @map("profile_img")
+  gender     Int       @db.SmallInt
   createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
   deletedAt  DateTime? @map("deleted_at") @db.Timestamptz
 
