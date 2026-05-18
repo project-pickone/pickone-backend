@@ -7,6 +7,7 @@ import {
 import { VoteRepository } from './vote.repository';
 import { BoardRepository } from '../board/board.repository';
 import { LoginUser } from '../../common/decorators/user.decorator';
+import { Transactional } from '@nestjs-cls/transactional';
 
 @Injectable()
 export class VoteService {
@@ -15,6 +16,7 @@ export class VoteService {
     private readonly boardRepository: BoardRepository,
   ) {}
 
+  @Transactional()
   public async voteBoard(
     boardIdx: number,
     optionIdx: number,
@@ -39,6 +41,7 @@ export class VoteService {
       throw new ConflictException('already voted');
     }
 
+    await this.voteRepository.increaseOptionCount(optionIdx);
     return await this.voteRepository.insertVote(optionIdx, loginUser.id);
   }
 }

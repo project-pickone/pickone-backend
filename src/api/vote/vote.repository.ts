@@ -31,4 +31,17 @@ export class VoteRepository {
       },
     });
   }
+
+  public async increaseOptionCount(optionIdx: number): Promise<void> {
+    await this.txHost.tx.boardOption.update({
+      where: {
+        idx: optionIdx,
+      },
+      data: {
+        count: {
+          increment: 1,
+        },
+      },
+    });
+  }
 }
