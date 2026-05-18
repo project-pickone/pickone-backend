@@ -44,4 +44,18 @@ export class VoteRepository {
       },
     });
   }
+
+  public async selectVoteByBoardIdxAndUserId(
+    loginUserId: string,
+    boardIdx: number,
+  ) {
+    return await this.txHost.tx.vote.findFirst({
+      where: {
+        option: {
+          boardIdx,
+        },
+        userId: loginUserId,
+      },
+    });
+  }
 }

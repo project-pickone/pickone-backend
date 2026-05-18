@@ -10,12 +10,4 @@ export class CreateCommentDto {
   @MinLength(1)
   @MaxLength(500)
   contents: string;
-
-  /**
-   * 선택한 옵션 식별자
-   *
-   * @example 1
-   */
-  @IsInt()
-  optionIdx: number;
 }
