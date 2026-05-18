@@ -41,6 +41,7 @@ export class FileController {
           callback(null, uniqueName);
         },
       }),
+      limits: { fileSize: 10 * 1024 * 1024 },
     }),
   )
   public upload(@UploadedFile() file: Express.Multer.File): { url: string } {
