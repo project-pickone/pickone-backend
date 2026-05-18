@@ -4,6 +4,7 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 import { Injectable } from '@nestjs/common';
 import { SignupDto } from './dto/request/signup.dto';
 import { SelectUser } from './entity/prisma/select-user';
+import { UpdateUserDto } from './dto/request/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -60,13 +61,12 @@ export class UserRepository {
 
   public async updateUserById(
     id: string,
-    dto: Omit<SignupDto, 'password' | 'userId'>,
+    dto: UpdateUserDto,
   ): Promise<SelectUser> {
     return this.txHost.tx.user.update({
       data: {
         nickname: dto.nickname,
         profileImg: dto.profileImg,
-        birth: dto.birth,
       },
       where: { id, deletedAt: null },
       select: {

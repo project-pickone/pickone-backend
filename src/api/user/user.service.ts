@@ -1,10 +1,12 @@
 import {
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { SignupDto } from './dto/request/signup.dto';
+import { UpdateUserDto } from './dto/request/update-user.dto';
 import { AccountRepository } from './account.repository';
 import { Transactional } from '@nestjs-cls/transactional';
 import { HashService } from '../../common/modules/hash/hash.service';
@@ -49,6 +51,18 @@ export class UserService {
     }
 
     return UserEntity.fromPrisma(user);
+  }
+
+  public async updateMyInfo(
+    loginUser: LoginUser,
+    dto: UpdateUserDto,
+  ): Promise<void> {
+    const user = await this.userRepository.selectUserById(loginUser.id);
+    if (!user) {
+      throw new InternalServerErrorException('Server Error occurred.');
+    }
+
+    await this.userRepository.updateUserById(loginUser.id, dto);
   }
 
   public async checkIdDuplicate(

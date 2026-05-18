@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { Exception } from '../../common/decorators/exception.decorator';
 import { SignupDto } from './dto/request/signup.dto';
+import { UpdateUserDto } from './dto/request/update-user.dto';
 import { Auth } from '../../common/decorators/auth.decorator';
 import { LoginUser, User } from '../../common/decorators/user.decorator';
 import { DuplicateCheckDto } from './dto/request/id-duplicate-check.dto';
@@ -30,6 +31,19 @@ export class UserController {
   @Auth()
   public async getMyInfo(@User() loginUser: LoginUser): Promise<UserEntity> {
     return await this.userService.getMyInfo(loginUser);
+  }
+
+  /**
+   * 내 정보 수정 API
+   */
+  @Patch('me')
+  @Auth()
+  @Exception(400, 'invalid body')
+  public async updateMyInfo(
+    @User() loginUser: LoginUser,
+    @Body() dto: UpdateUserDto,
+  ): Promise<void> {
+    return await this.userService.updateMyInfo(loginUser, dto);
   }
 
   /**
