@@ -48,6 +48,19 @@ export class BoardService {
     return BoardEntity.fromPrisma(cratedBoard);
   }
 
+  public async getBoardByIdx(
+    idx: number,
+    loginUser: LoginUser,
+  ): Promise<BoardEntity> {
+    const board = await this.boardRepository.selectBoardByIdx(idx, loginUser.id);
+
+    if (!board) {
+      throw new NotFoundException('게시글을 찾을 수 없습니다.');
+    }
+
+    return BoardEntity.fromPrisma(board);
+  }
+
   public async updateBoardByIdx(
     idx: number,
     dto: UpdateBoardDto,

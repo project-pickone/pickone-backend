@@ -50,6 +50,19 @@ export class BoardController {
   }
 
   /**
+   * 게시판 단건 조회 API
+   */
+  @Get('/:idx')
+  @Exception(404, 'board not found')
+  @Auth()
+  public async getBoard(
+    @User() loginUser: LoginUser,
+    @Param('idx', ParseIntPipe) idx: number,
+  ): Promise<BoardEntity> {
+    return await this.boardService.getBoardByIdx(idx, loginUser);
+  }
+
+  /**
    * 게시판 생성 API
    */
   @Post()
