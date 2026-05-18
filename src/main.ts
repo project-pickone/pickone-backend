@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import cookieParser from 'cookie-parser';
-import { join } from 'path';
 import {
   DocumentBuilder,
   SwaggerCustomOptions,
@@ -15,12 +14,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  app.useStaticAssets(join(process.cwd(), 'public'), { prefix: '/public' });
-
-  const reactBuildPath = process.env.REACT_BUILD_PATH;
-  if (reactBuildPath) {
-    app.useStaticAssets(reactBuildPath);
-  }
+  app.useStaticAssets(`${process.cwd()}/public`, { prefix: '/public' });
 
   app.enableShutdownHooks();
 
@@ -52,12 +46,5 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, documentFactory, customOptions);
 
   await app.listen(process.env.PORT ?? 3000);
-
-  if (reactBuildPath) {
-    const expressApp = app.getHttpAdapter().getInstance() as any;
-    expressApp.use(/(.*)/, (_req: any, res: any) => {
-      res.sendFile(join(reactBuildPath, 'index.html'));
-    });
-  }
 }
 bootstrap();

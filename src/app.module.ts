@@ -1,7 +1,9 @@
 import { ClsPluginTransactional } from '@nestjs-cls/transactional';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { ClsModule } from 'nestjs-cls';
+import { join } from 'path';
 import { PrismaModule } from './common/modules/prisma/prisma.module';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { PrismaService } from './common/modules/prisma/prisma.service';
@@ -16,6 +18,14 @@ import { FileModule } from './api/file/file.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ...(process.env.REACT_BUILD_PATH
+      ? [
+          ServeStaticModule.forRoot({
+            rootPath: join(process.env.REACT_BUILD_PATH),
+            exclude: ['/api/{*path}'],
+          }),
+        ]
+      : []),
     ClsModule.forRoot({
       plugins: [
         new ClsPluginTransactional({
