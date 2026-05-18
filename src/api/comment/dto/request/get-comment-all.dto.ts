@@ -1,4 +1,5 @@
 import { Type } from 'class-transformer';
+import { IsInt } from 'class-validator';
 
 export class GetCommentAllRequestDto {
   /**
@@ -7,5 +8,6 @@ export class GetCommentAllRequestDto {
    * @example 1
    */
   @Type(() => Number)
+  @IsInt()
   page: number;
 }
