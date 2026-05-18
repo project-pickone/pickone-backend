@@ -13,7 +13,14 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  app.setGlobalPrefix('api');
+
   app.useStaticAssets(join(process.cwd(), 'public'), { prefix: '/public' });
+
+  const reactBuildPath = process.env.REACT_BUILD_PATH;
+  if (reactBuildPath) {
+    app.useStaticAssets(reactBuildPath);
+  }
 
   app.enableShutdownHooks();
 
@@ -42,8 +49,15 @@ async function bootstrap() {
     },
   };
   const documentFactory = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory, customOptions);
+  SwaggerModule.setup('docs', app, documentFactory, customOptions);
 
   await app.listen(process.env.PORT ?? 3000);
+
+  if (reactBuildPath) {
+    const expressApp = app.getHttpAdapter().getInstance() as any;
+    expressApp.use(/(.*)/, (_req: any, res: any) => {
+      res.sendFile(join(reactBuildPath, 'index.html'));
+    });
+  }
 }
 bootstrap();
