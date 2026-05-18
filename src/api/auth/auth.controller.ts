@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, HttpCode } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Exception } from '../../common/decorators/exception.decorator';
 import { LoginDto } from './dto/request/login.dto';
@@ -9,6 +9,20 @@ import { AuthService } from './auth.service';
 @ApiTags('Auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  /**
+   * 로그아웃 API
+   */
+  @Post('/logout')
+  @HttpCode(204)
+  public async logout(
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<void> {
+    res.clearCookie('accessToken', {
+      sameSite: 'none',
+      secure: true,
+    });
+  }
 
   /**
    * 로그인 API
