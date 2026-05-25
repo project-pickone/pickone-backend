@@ -148,6 +148,7 @@ export class BoardRepository {
         boardIdx: idx,
         title: dto.title,
         contents: dto.contents,
+        thumbnailPath: dto.thumbnail,
       },
     });
   }

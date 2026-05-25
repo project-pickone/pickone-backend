@@ -19,6 +19,7 @@ import { BoardOverviewEntity } from './entity/board-overview.entity';
 import { Auth } from '../../common/decorators/auth.decorator';
 import { GetBoardAllRequestDto } from './dto/request/get-board-all.dto';
 import { GetBoardAllResponseDto } from './dto/response/get-board-all-response.dto';
+import { UpdateBoardDto } from './dto/request/update-board.dto';
 
 @Controller('board')
 @ApiTags('Board')
@@ -85,7 +86,7 @@ export class BoardController {
   @Auth()
   public async updateBoard(
     @User() loginUser: LoginUser,
-    @Body() dto: CreateBoardDto,
+    @Body() dto: UpdateBoardDto,
     @Param('idx', ParseIntPipe) idx: number,
   ): Promise<void> {
     return await this.boardService.updateBoardByIdx(idx, dto, loginUser);
